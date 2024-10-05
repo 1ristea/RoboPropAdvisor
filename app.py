@@ -26,6 +26,16 @@ def prediction_result_DBS():
 def faq():
     return(render_template("faq.html"))
 
+@app.route("/prediction_creditability",methods=["GET","POST"])
+def prediction_creditability():
+    return(render_template("prediction_creditability.html"))
+
+@app.route("/prediction_result_creditability",methods=["GET","POST"])
+def prediction_result_creditability():
+    q = float(request.form.get("q"))
+    r = (-0.00010249*q) + 1.19310109
+    return(render_template("prediction_result_creditability.html",r=r))
+
 @app.route("/q1",methods=["GET","POST"])
 def q1():
     r = model.generate_content("How should I diversify my investment portfolio?")
