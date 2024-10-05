@@ -4,9 +4,10 @@
 </head>
 <body>
     <div class="container">
-        <h2>The predicted result is {{r}}</h2>
-        <form action="/" method="post">
-            <p><input type = "submit" value = "Main"></p>
+        <h2>Sentiment Analysis</h2>
+        <form action="/sentiment_analysis_result" method="post">
+            <p><input type="text" name="q"></p>
+            <p><input type = "submit" value = "Enter"></p>
 
         </form>
 
