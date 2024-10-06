@@ -1,26 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
 </head>
 <body>
     <div class="container">
-        <h2>Financial Wealth Management Portal</h2>
-        <form action="/prediction_DBS" method="post">
-            <input type = "submit" value = "Predict DBS price">
+        <h2>RoboPropAdvisor</h2>
+        
+        <form action="/predict_rent" method="post">
+            <input type = "submit" value = "Predict Rental Price">
 
         </form>
-        <form action="/faq" method="post">
-            <input type = "submit" value = "FAQ">
+        <form action="/check_scam" method="post">
+            <input type = "submit" value = "Check for Scam">
 
         </form>
 
         </form>
-        <form action="/prediction_creditability" method="post">
-            <input type = "submit" value = "Predict Creditability">
+        <form action="/search_mktplace" method="post">
+            <input type = "submit" value = "Search for Property">
         </form>
-        <form action="/sentiment_analysis" method="post">
-            <input type = "submit" value = "Sentiment Analysis">
-        </form>
+      
     </div>
 </body>
-    
+</html>
