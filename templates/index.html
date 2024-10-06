@@ -8,7 +8,11 @@
 </head>
 <body>
     <div class="container">
-        <h2>Select Property Details</h2>
+        <!-- Add the image at the top of the form -->
+        <img src="{{ url_for('static', filename='images/RoboProp.png') }}" alt="Robot Logo" class="logo">
+        
+        <h2>RoboProp Advisor</h2>
+        <h4>Select Property Details</h4>
         <form action="/submit" method="post">
             <label for="propertyType">Property Type:</label>
             <select name="propertyType" id="propertyType">
@@ -37,4 +41,5 @@
     </div>
 </body>
 </html>
+
 
