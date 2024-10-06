@@ -1,27 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Property Advisor</title>
 </head>
 <body>
     <div class="container">
-        <h2>RoboPropAdvisor</h2>
-        
-        <form action="/predict_rent" method="post">
-            <input type = "submit" value = "Predict Rental Price">
+        <h2>Select Property Details</h2>
+        <form action="/submit" method="post">
+            <label for="propertyType">Property Type:</label>
+            <select name="propertyType" id="propertyType">
+                <option value="HDB">HDB</option>
+                <option value="Condo">Condo</option>
+                <option value="Landed">Landed</option>
+            </select>
 
-        </form>
-        <form action="/check_scam" method="post">
-            <input type = "submit" value = "Check for Scam">
+            <label for="location">Location:</label>
+            <select name="location" id="location">
+                <option value="Bedok">Bedok</option>
+                <option value="Tampines">Tampines</option>
+                <option value="Jurong">Jurong</option>
+            </select>
 
-        </form>
+            <label for="rooms">Number of Rooms:</label>
+            <select name="rooms" id="rooms">
+                <option value="1R">1 Room</option>
+                <option value="2R">2 Rooms</option>
+                <option value="3R">3 Rooms</option>
+                <option value="4R">4 Rooms</option>
+            </select>
 
+            <button type="submit">Submit</button>
         </form>
-        <form action="/search_mktplace" method="post">
-            <input type = "submit" value = "Search for Property">
-        </form>
-      
     </div>
 </body>
 </html>
+

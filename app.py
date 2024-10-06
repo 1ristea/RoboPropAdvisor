@@ -1,46 +1,29 @@
-from flask import Flask,render_template,request
-import google.generativeai as genai
-import os
-import textblob as textblob
-
-model = genai.GenerativeModel("gemini-1.5-flash")
-api = os.getenv("ROBOPROP")
-genai.configure(api_key=api)
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route("/predict_rent_result",methods=["GET","POST"])
-def predict_rent_result():
-    data = request.json
-    property_type = data.get('propertyType')
-    location = data.get('location')
-    rooms = data.get('rooms')
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-    # Convert budget to a numerical value
-    rooms_num = {
-        '1R': 1,
-        '2R': 2,
-        '3R': 3,
-        '4R': 4
-    }.get(rooms, 0)
-    
-    # Define multipliers based on property type and location
-    property_type_num = {
-        'hdb': 1.0,
-        'condo': 1.2,
-        'landed': 1.5
-    }.get(property_type, 1.0)
-    
-    location_num = {
-        'bedok': 1.1,
-        'tampines': 1.3,
-        'jurong': 1.5
-    }.get(location, 1.0)
+@app.route('/submit', methods=['POST'])
+def submit():
+    # Get the selected values from the form
+    property_type = request.form.get('propertyType')
+    location = request.form.get('location')
+    rooms = request.form.get('rooms')
 
-    # Calculate estimated value
-    r = 100 + 0.5*property_type_num +0.5*location_num + 0.5*rooms_num
+    # Perform calculation or any logic based on the dropdown selections
+    # For example, calculating a hypothetical rental price based on inputs
+    base_price = 1000
+    property_type_factor = {'HDB': 1.0, 'Condo': 1.5, 'Landed': 2.0}.get(property_type, 1.0)
+    location_factor = {'Bedok': 1.1, 'Tampines': 1.3, 'Jurong': 1.5}.get(location, 1.0)
+    rooms_factor = {'1R': 0.8, '2R': 1.0, '3R': 1.2, '4R': 1.5}.get(rooms, 1.0)
 
-    return(render_template("predict_rent_result.html",r=r))
+    # Calculate the estimated rent
+    estimated_rent = base_price * property_type_factor * location_factor * rooms_factor
+
+    return render_template('result.html', rent=estimated_rent)
 
 if __name__ == '__main__':
     app.run(debug=True)
