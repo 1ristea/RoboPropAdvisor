@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import requests
 
 app = Flask(__name__)
 
@@ -23,7 +24,15 @@ def submit():
     # Calculate the estimated rent
     estimated_rent = base_price * property_type_factor * location_factor * rooms_factor
 
-    return render_template('result.html', rent=estimated_rent)
+    return render_template('predict_rent_result.html', rent=estimated_rent)
+
+@app.route("/search_properties",methods=["POST"])
+def search_properties():
+    return(render_template("search_property_result.html"))
+
+@app.route("/check_scam",methods=["POST"])
+def check_scam():
+    return(render_template("check_scam_result.html"))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
