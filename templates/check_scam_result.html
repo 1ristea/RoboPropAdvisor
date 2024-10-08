@@ -3,15 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Rent Prediction Result</title>
+    <title>URL Scam Check Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        .result {
+            font-size: 18px;
+            margin: 15px 0;
+        }
+        .valid {
+            color: #4CAF50; /* Green for valid URLs */
+        }
+        .suspicious {
+            color: #FF5722; /* Red for suspicious URLs */
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <p><h2><strong>Oh no! You have been scammed!</strong></h2></p>
-        <a href="/" class="button">Go Back</a>
+
+<div class="container">
+    <h2>URL Scam Checker Result</h2>
+    <div class="result {{ 'valid' if 'valid' in r else 'suspicious' }}">
+        {{ r }}
     </div>
+    <a href="/" class="button">Check another URL</a>
+</div>
+
 </body>
 </html>
+
 
     

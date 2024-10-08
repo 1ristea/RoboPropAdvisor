@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request
-import requests
+import openai
+import os
+import re
 
 app = Flask(__name__)
+openai.api_key = os.getenv("ROBOPROP")
 
 @app.route('/')
 def home():
@@ -30,9 +33,42 @@ def submit():
 def search_properties():
     return(render_template("search_property_result.html"))
 
-@app.route("/check_scam",methods=["POST"])
-def check_scam():
-    return(render_template("check_scam_result.html"))
+@app.route("/check_scam_result", methods=["POST"])
+def check_scam_result():
+    # Get the URL from the form submission
+    url = request.form.get('url')  # Make sure to get the URL from the form data
+
+    # Check if the URL is None or empty
+    if not url or url.strip() == "":
+        result_message = "No URL provided. Please enter a valid URL."
+        return render_template("check_scam_result.html", r=result_message)
+
+    # Feature extraction
+    features = {
+        'length': len(url),
+        'has_https': int('https://' in url),
+        'has_at_symbol': int('@' in url),
+        'has_ip': int(re.search(r"\d+\.\d+\.\d+\.\d+", url) is not None),
+        'count_dots': url.count('.')
+    }
+    
+    # Calculate risk score based on features
+    risk_score = (
+        features['has_https'] + 
+        features['has_at_symbol'] + 
+        features['has_ip'] + 
+        (features['length'] > 50)  # Penalize for long URLs
+    )
+    
+    # Generate result message based on risk score
+    if risk_score == 1:
+        result_message = "This URL appears to be safe."
+    elif risk_score == 2:
+        result_message = "This URL is slightly suspicious. Be cautious."
+    else:
+        result_message = "This URL is suspicious. Beware of scams!"
+
+    return render_template("check_scam_result.html", r=result_message)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)

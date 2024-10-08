@@ -41,19 +41,25 @@
                 <option value="4R">4 Rooms</option>
             </select>
             </div>
-                <button type="submit">Predict Rental Price</button>
+                <button class="button" type="submit">Predict Rental Price</button>
         </form>
 
+        <!-- Form for searching properties -->
         <form action="/search_properties" method="post">
             <button class="button" type="submit">Search Properties</button>
          </form>
 
-         <form action="/check_scam" method="post">
-            <input type="text" id="keywords" name="keywords" placeholder="Enter URL here: " /></p>
-            <button class="button" type="submit">Check for Scam</button>
-        </form>
-            
+          <!-- Form for uploading an advertisement image -->
+          
+            <h4>URL Scam Checker</h4>
+            <form action="/check_scam_result" method="POST">
+                <label for="url">Enter URL:</label>
+                <input type="text" id="url" name="url" placeholder="https://example.com" required>
+                <button class="button" type="submit" value="Check URL">Check URL</button>
+            </form>
+        
     </div>
+
 </body>
 </html>
 
