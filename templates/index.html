@@ -51,14 +51,15 @@
             <button class="button" type="submit">Search Properties</button>
          </form>
 
-          <!-- Form for uploading an advertisement image -->
-          
-            <h4>URL Scam Checker</h4>
-            <form action="/check_scam_result" method="POST">
-                <label for="url">Enter URL:</label>
-                <input type="text" id="url" name="url" placeholder="https://example.com" required>
-                <button class="button" type="submit" value="Check URL">Check URL</button>
-            </form>
+         <!-- Form for uploading an advertisement image -->
+                 <!-- Form for uploading an advertisement image -->
+        <form action="/check_scam_result" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="image">Upload Property Advertisement Image:</label>
+                <input type="file" name="image" accept="image/*" required />
+            </div>
+            <button type="submit" class="button">Check Image for Scam</button>
+        </form> 
         
     </div>
 

@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request
-import openai
+import google.generativeai as genai  
 import os
-import re
+from PIL import Image
+import io
 
 app = Flask(__name__)
-openai.api_key = os.getenv("ROBOPROP")
+
+model = genai.GenerativeModel("gemini-1.5-flash")
+api = os.getenv("GEMINI")
+genai.configure(api_key=api) 
 
 @app.route('/')
 def home():
@@ -29,46 +33,37 @@ def submit():
 
     return render_template('predict_rent_result.html', rent=int(estimated_rent))
 
-@app.route("/search_properties",methods=["POST"])
+@app.route("/search_properties", methods=["POST"])
 def search_properties():
-    return(render_template("search_property_result.html"))
-
+    return render_template("search_property_result.html")
+ 
 @app.route("/check_scam_result", methods=["POST"])
 def check_scam_result():
-    # Get the URL from the form submission
-    url = request.form.get('url')  # Make sure to get the URL from the form data
+    if 'image' not in request.files:
+        return "No file part", 400
 
-    # Check if the URL is None or empty
-    if not url or url.strip() == "":
-        result_message = "No URL provided. Please enter a valid URL."
-        return render_template("check_scam_result.html", r=result_message)
+    file = request.files['image']
 
-    # Feature extraction
-    features = {
-        'length': len(url),
-        'has_https': int('https://' in url),
-        'has_at_symbol': int('@' in url),
-        'has_ip': int(re.search(r"\d+\.\d+\.\d+\.\d+", url) is not None),
-        'count_dots': url.count('.')
-    }
-    
-    # Calculate risk score based on features
-    risk_score = (
-        features['has_https'] + 
-        features['has_at_symbol'] + 
-        features['has_ip'] + 
-        (features['length'] > 50)  # Penalize for long URLs
-    )
-    
-    # Generate result message based on risk score
-    if risk_score == 1:
-        result_message = "This URL appears to be safe."
-    elif risk_score == 2:
-        result_message = "This URL is slightly suspicious. Be cautious."
-    else:
-        result_message = "This URL is suspicious. Beware of scams!"
+    if file.filename == '':
+        return "No selected file", 400
 
-    return render_template("check_scam_result.html", r=result_message)
+    if file:
+        try:
+            # Open the image file using PIL (Python Imaging Library)
+            image = Image.open(file.stream)
+
+            # Generate a prompt for the model analysis
+            prompt = "Analyze this image of a property advertisement and rate its legitimacy on a scale from 1 to 10."
+            
+            # Convert the image to the required format for the generative model
+            # Use the `Image` object directly instead of BytesIO
+            response = model.generate_content([image, prompt])  # Adjust this as necessary
+
+            result = response.text if response else "Unable to analyze the image at this time."
+        except Exception as e:
+            result = f"An error occurred: {str(e)}"
+
+    return render_template("check_scam_result.html", r=result)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run(host='0.0.0.0', port=5000)
