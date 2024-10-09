@@ -19,15 +19,15 @@ def submit():
 
     # Perform calculation or any logic based on the dropdown selections
     # For example, calculating a hypothetical rental price based on inputs
-    base_price = 1000
-    property_type_factor = {'HDB': 1.0, 'Condo': 1.5, 'Landed': 2.0}.get(property_type, 1.0)
-    location_factor = {'Bedok': 1.1, 'Tampines': 1.3, 'Jurong': 1.5}.get(location, 1.0)
-    rooms_factor = {'1R': 0.8, '2R': 1.0, '3R': 1.2, '4R': 1.5}.get(rooms, 1.0)
+    
+    property_type_factor = {'HDB': 1, 'Condo': 2, 'Landed': 3}.get(property_type, 1)
+    location_factor = {'Central': 1, 'East': 2, 'Northwest': 3,'West': 4,'North': 5}.get(location, 1)
+    rooms_factor = {'1': 1, '2': 2, '3': 3, '4': 4}.get(rooms, 1)
 
     # Calculate the estimated rent
-    estimated_rent = base_price * property_type_factor * location_factor * rooms_factor
+    estimated_rent = 1901.76 + -243.20*location_factor + -403.86*property_type_factor + 1530.39*rooms_factor
 
-    return render_template('predict_rent_result.html', rent=estimated_rent)
+    return render_template('predict_rent_result.html', rent=int(estimated_rent))
 
 @app.route("/search_properties",methods=["POST"])
 def search_properties():
