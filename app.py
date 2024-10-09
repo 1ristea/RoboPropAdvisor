@@ -2,12 +2,11 @@ from flask import Flask, render_template, request
 import google.generativeai as genai  
 import os
 from PIL import Image
-import io
 
 app = Flask(__name__)
 
 model = genai.GenerativeModel("gemini-1.5-flash")
-api = os.getenv("GEMINI")
+api = os.getenv("ROBOPROP")
 genai.configure(api_key=api) 
 
 @app.route('/')
