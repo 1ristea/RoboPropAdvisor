@@ -33,7 +33,14 @@ def submit():
     # Calculate the estimated rent
     estimated_rent = 1901.76 + -243.20*location_factor + -403.86*property_type_factor + 1530.39*rooms_factor
 
-    return render_template('predict_rent_result.html', rent=int(estimated_rent))
+    # Pass variables to the template
+    return render_template(
+        'predict_rent_result.html', 
+        rent=int(estimated_rent), 
+        property_type=property_type, 
+        location=location, 
+        rooms=rooms)
+
 
 @app.route("/search_properties",methods=["POST"])
 def search_properties():

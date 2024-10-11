@@ -8,9 +8,12 @@
 </head>
 <body>
     <div class="container">
-        <h2>Estimated Rental Price</h2>
-        <p>The estimated rental price for the selected property is: <strong>${{ rent }}</strong></p>
-        
+
+            <p>Property Type: {{ property_type }}</p>
+            <p>Location: {{ location }}</p>
+            <p>Number of Rooms: {{ rooms }}</p>
+            <p><h2>Estimated Rent: ${{ rent }}</p></h2>
+       
         <a href="/" class="button">Go Back</a>
     </div>
 </body>
