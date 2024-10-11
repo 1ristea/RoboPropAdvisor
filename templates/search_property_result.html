@@ -3,14 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - Property Listings</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <title>Rent Prediction Result</title>
 </head>
 <body>
+
     <div class="container">
-        <p><h2>The search is in progress...</h2></p>
-        <a href="/" class="button">Go Back</a>
+        <!-- Back to Home Button -->
+        <a href="{{ url_for('home') }}" class="button">Go Back</a>
+
+        <h2>Property Listings</h2>
+
+        <div class="row">
+            {% if properties %}
+                {% for property in properties %}
+                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ property.photo_url }}" class="card-img-top" alt="Property Image">
+                            <div class="card-body">
+                                <h3 class="card-title">
+                                    <a href="{{ property.place_url }}" target="_blank">{{ property.name }}</a>
+                                </h3>
+                                <p class="card-text">
+                                    {{ property.formatted_address }} <br>
+                                    Rating: {{ property.rating if property.rating else 'No rating' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12">
+                    <p>No properties found for rent in this area. Please try again later.</p>
+                </div>
+            {% endif %}
+        </div>
     </div>
+
 </body>
 </html>
 
