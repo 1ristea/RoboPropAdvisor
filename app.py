@@ -3,14 +3,14 @@ import google.generativeai as genai
 import os
 from PIL import Image
 import requests
-
-GOOGLE_API_KEY = 'AIzaSyC4fSVZFjeTaZhcbV8aWmkYLAIBvEVZR_s'
-
+ 
 app = Flask(__name__)
 
 model = genai.GenerativeModel("gemini-1.5-flash")
 api = os.getenv("ROBOPROP")
 genai.configure(api_key=api) 
+
+searchApiKey = os.getenv("SEARCHAPIKEY")
 
 @app.route('/')
 def home():
@@ -61,7 +61,7 @@ def search_properties():
             # Add photo URL if available
             if 'photos' in property:
                 photo_reference = property['photos'][0]['photo_reference']
-                photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={GOOGLE_API_KEY}"
+                photo_url = f"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={photo_reference}&key={searchApiKey}"
                 property['photo_url'] = photo_url
             else:
                 property['photo_url'] = url_for('static', filename='images/no_image.png')
