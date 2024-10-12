@@ -47,7 +47,7 @@ def search_properties():
     location = '1.3521,103.8198'  # Latitude and Longitude for Singapore
     radius = 50000  # Search radius in meters
     query = 'apartment for rent in Singapore'
-    url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={query}&location={location}&radius={radius}&key={GOOGLE_API_KEY}"
+    url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={query}&location={location}&radius={radius}&key={searchApiKey}"
 
     response = requests.get(url)
     data = response.json()
